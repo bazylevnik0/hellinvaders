@@ -21,22 +21,29 @@ scene.add(camera_group);
 
 var invaders = [];
 function create_object () {
-  let geometry = new THREE.BoxGeometry( 1, 1, 1 );
-  let material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
-  let invader  = new THREE.Mesh( geometry, material );
-        invader.position.y = 10;
-        invader.position.x = Math.random()*100-50;
-        invader.position.z = Math.random()*100-50;
-        scene.add( invader );
-        invaders.push( invader );
+  let invader_geometry = new THREE.BoxGeometry( 1, 1, 1 );
+  let invader_material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+  let invader  = new THREE.Mesh( invader_geometry, invader_material );
+      invader.position.y = 50;
+      invader.position.x = Math.random()*100-50;
+      invader.position.z = Math.random()*100-50;
+      scene.add( invader );
+      invaders.push( invader );
 }
 
-let geometry = new THREE.BoxGeometry( 1, 1, 1 );
-let material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-var gun      = new THREE.Mesh( geometry, material );
-      gun.position.z = 4;
-      gun.position.y = 0.5;
-      scene.add( gun );
+let gun_geometry = new THREE.BoxGeometry( 1, 1, 1 );
+let gun_material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
+var gun      = new THREE.Mesh( gun_geometry, gun_material );
+    gun.position.z = 4;
+    gun.position.y = 0.5;
+    scene.add( gun );
+
+let ground_geometry = new THREE.PlaneGeometry( 1000, 1000 );
+let ground_material = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide} );
+let ground = new THREE.Mesh( ground_geometry, ground_material );
+		ground.position.y = -1;
+		ground.rotation.x = Math.PI/2
+		scene.add( ground );
 
 function animate() {
   let   r = Math.floor(Math.random()*(100/LEVEL));
