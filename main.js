@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 
 var LEVEL = 20;
-console.log(2)
+console.log(3)
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -48,6 +48,13 @@ let ground = new THREE.Mesh( ground_geometry, ground_material );
 		ground.rotation.x = Math.PI/2
 		scene.add( ground );
 
+let laser_geometry = new THREE.BoxGeometry( 0.1, 0.1, 1000 );
+let laser_material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+var laser      = new THREE.Mesh( laser_geometry, laser_material );
+    laser.position.z = 4;
+    laser.position.y = 0.5;
+    scene.add( laser );
+
 function animate() {
   let   r = Math.floor(Math.random()*(100/LEVEL));
   if ( !r ) create_object();
@@ -77,14 +84,26 @@ function animate() {
 		gun.rotation.x = camera_xr.rotation.x;
 		gun.rotation.y = camera_xr.rotation.y;
 		gun.rotation.z = camera_xr.rotation.z;
+		laser.rotation.x = camera_xr.rotation.x;
+		laser.rotation.y = camera_xr.rotation.y;
+		laser.rotation.z = camera_xr.rotation.z;
 
 		let start_position = new THREE.Vector3(0,0,0);
 		start_position = direction.clone();
 		start_position.multiplyScalar(2)
 		//console.log(start_position)
+		let fix_position = new THREE.Vector3( 0, 0.5, 5);
+		start_position.add(fix_position)
 		gun.position.x = start_position.x;
-		gun.position.y = start_position.y+0.5;
-		gun.position.z = start_position.z+5;
+		gun.position.y = start_position.y;
+		gun.position.z = start_position.z;
+
+		start_position.add(direction.multiplyScalar(500))
+
+		laser.position.x = start_position.x;
+		laser.position.y = start_position.y;
+		laser.position.z = start_position.z;
+
 
 	}
   renderer.render( scene, camera );
