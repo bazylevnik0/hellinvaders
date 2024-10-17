@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import { VRButton } from 'three/addons/webxr/VRButton.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+
 
 var LEVEL = 1;
 
@@ -16,7 +19,6 @@ const raycaster = new THREE.Raycaster();
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.setAnimationLoop( animate );
 renderer.xr.enabled = true;
 document.body.appendChild( renderer.domElement );
 document.body.appendChild( VRButton.createButton( renderer ) );
@@ -59,6 +61,29 @@ var laser          = new THREE.Mesh( laser_geometry, laser_material );
     laser.position.y = 0.5;
     scene.add( laser );
 
+var text;
+const text_loader = new FontLoader();
+text_loader.load( 'PixelifySansMedium_Regular.json', function ( font ) {
+
+	const text_geometry = new TextGeometry( 'LEVEL: 0', {
+		font: font,
+		size: 80,
+		bevelEnabled: false,
+	} );
+	text_geometry.center();
+	let text_material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+      text          = new THREE.Mesh( text_geometry, text_material );
+      text.position.z = 4;
+      text.position.y = 0.5;
+      text.scale.x = 0.005;
+      text.scale.y = 0.005;
+      text.scale.z = 0.0;
+      scene.add( text );
+
+  renderer.setAnimationLoop( animate );
+
+} );
+
 // Render function
 function animate() {
   if (renderer.xr.isPresenting) {
@@ -80,17 +105,25 @@ function animate() {
 		laser.rotation.x = camera_xr.rotation.x;
 		laser.rotation.y = camera_xr.rotation.y;
 		laser.rotation.z = camera_xr.rotation.z;
+    text.rotation.x = camera_xr.rotation.x;
+		text.rotation.y = camera_xr.rotation.y;
+		text.rotation.z = camera_xr.rotation.z;
 
 		let start_position = new THREE.Vector3(0,0,0);
 		start_position = direction.clone();
 		start_position.multiplyScalar(2)
 
-		//console.log(start_position)
-		let fix_position = new THREE.Vector3( 0, 0.5, 5);
+
+    let fix_position = new THREE.Vector3( 0, 0.5, 5);
 		start_position.add(fix_position)
 		gun.position.x = start_position.x;
 		gun.position.y = start_position.y;
 		gun.position.z = start_position.z;
+
+		 text.position.x = start_position.x;
+		text.position.y = start_position.y+3;
+		text.position.z = start_position.z;
+
 
 		start_position.add(direction.multiplyScalar(500))
 
