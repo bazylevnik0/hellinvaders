@@ -6,7 +6,7 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 var Loader = {};
 
-Loader.load = function ( scene ) {
+Loader.load = function ( scene , listener) {
     // Creating invaders
     Loader.invader = {};
     Loader.invaders_boxes = [];
@@ -70,6 +70,16 @@ Loader.load = function ( scene ) {
     //Load Sky
     Loader.sky = {};
     Loader.sky.loader = new RGBELoader();
+
+    // Sound
+    Loader.sound = {};
+    Loader.sound.music = {};
+    Loader.sound.music.audio = new THREE.Audio( listener );
+    Loader.sound.music.loader = new THREE.AudioLoader();
+    Loader.sound.effect = {};
+    Loader.sound.effect.audio = new THREE.Audio( listener );
+    Loader.sound.effect.loader = new THREE.AudioLoader();
+
     Loader.sky.loader.load( '/assets/mud_road_puresky_1k.hdr', function ( texture ) {
 
 		  texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -119,8 +129,17 @@ Loader.load = function ( scene ) {
                     Loader.text.mesh.scale.y = 0.005;
                     Loader.text.mesh.scale.z = 0.0;
                     scene.add( Loader.text.mesh );
-
-                    Loader.loaded = true;
+                    // Load music
+                    Loader.sound.music.loader.load( '/assets/kbrecordzz__groove-metal-break-8.mp3', function( buffer ) {
+	                    Loader.sound.music.audio.setBuffer( buffer );
+	                    Loader.sound.music.audio.setLoop( true );
+	                    Loader.sound.music.audio.play();
+	                    // Load effect
+	                     Loader.sound.effect.loader.load( '/assets/jobro__laser1.wav', function( buffer ) {
+	                        Loader.sound.effect.audio.setBuffer( buffer );
+	                        Loader.loaded = true;
+	                    });
+                    });
                   });
               });
           });

@@ -51,10 +51,11 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 		// Check intersection of the ray from camera
 	  const intersects = raycaster.intersectObjects( scene.children );
 	  for ( let i = 0; i < intersects.length; i ++ ) {
-	    console.log(intersects[i].object)
-		  if (intersects[i].object.name == "invader") {
-		    console.log("hehe")
-        intersects[ i ].object.position.y = -2;
+	    if (intersects[i].object.name == "invader") {
+		    intersects[ i ].object.position.y = -2;
+		    if (!Loader.sound.effect.audio.isPlaying ) {
+		        Loader.sound.effect.audio.play();
+		    }
       }
 	  }
 

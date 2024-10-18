@@ -8,6 +8,8 @@ console.log("debug test:",4);
 // Creating the common stuff
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const listener = new THREE.AudioListener();
+camera.add( listener );
 const camera_group = new THREE.Group();
 camera_group.position.set(0,5,5);
 camera_group.add( camera );
@@ -19,7 +21,6 @@ const light_ambient = new THREE.AmbientLight( 0x404040 ); // soft white light
 const light_point = new THREE.PointLight( 0x404040, 10, 1000 );
       light_point.position.set( 0, 10, 0 );
       scene.add( light_point );
-
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.xr.enabled = true;
@@ -27,7 +28,7 @@ document.body.appendChild( renderer.domElement );
 document.body.appendChild( VRButton.createButton( renderer ) );
 
 Loader.clock = new THREE.Clock();
-Loader.load( scene ); renderer.setAnimationLoop( animate );
+Loader.load( scene , listener); renderer.setAnimationLoop( animate );
 function animate() {
   if (Loader.loaded) {
     if (renderer.xr.isPresenting) {
