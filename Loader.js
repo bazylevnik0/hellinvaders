@@ -29,16 +29,16 @@ Loader.load = function ( scene ) {
 
     // Creating gun
     Loader.gun = {};
+    Loader.gun.loader = new GLTFLoader();
     Loader.gun.geometry = new THREE.BoxGeometry( 1, 1, 1 );
     Loader.gun.material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
     Loader.gun.mesh     = new THREE.Mesh( Loader.gun.geometry, Loader.gun.material );
     Loader.gun.mesh.position.z = 4;
     Loader.gun.mesh.position.y = 0.5;
-    scene.add( Loader.gun.mesh );
+    //scene.add( Loader.gun.mesh );
 
     // Creating laser
     Loader.laser = {};
-    Loader.gun.loader = new GLTFLoader();
     Loader.laser.geometry = new THREE.BoxGeometry( 0.1, 0.1, 1000 );
     Loader.laser.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
     Loader.laser.mesh    = new THREE.Mesh( Loader.laser.geometry, Loader.laser.material );
@@ -61,26 +61,34 @@ Loader.load = function ( scene ) {
       // Load Ground
       Loader.ground.loader.load( '/assets/Castle/Castle_Building_Blocks/post-castle.glb', (gltf_ground)=> {
           scene.add(gltf_ground.scene);
-          // Load text
-          Loader.text.loader.load( '/assets/PixelifySansMedium_Regular.json', function ( font ) {
+          Loader.ground.loader.load( '/assets/Gun/Gun+.glb', (gltf_gun)=> {
+            Loader.gun.model = gltf_gun.scene;
+            Loader.gun.model.scale.x = 0.5;
+            Loader.gun.model.scale.y = 0.5;
+            Loader.gun.model.scale.z = 0.5;
+            scene.add(Loader.gun.model);
 
-	        Loader.text.geometry = new TextGeometry( 'LEVEL: 0', {
-		        font: font,
-		        size: 80,
-		        bevelEnabled: false,
-	        } );
-	        Loader.text.geometry.center();
-	        Loader.text.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-          Loader.text.mesh     = new THREE.Mesh( Loader.text.geometry, Loader.text.material );
-          Loader.text.mesh.position.z = 4;
-          Loader.text.mesh.position.y = 0.5;
-          Loader.text.mesh.scale.x = 0.005;
-          Loader.text.mesh.scale.y = 0.005;
-          Loader.text.mesh.scale.z = 0.0;
-          scene.add( Loader.text.mesh );
+              // Load text
+              Loader.text.loader.load( '/assets/PixelifySansMedium_Regular.json', function ( font ) {
 
-          Loader.loaded = true;
-        });
+	            Loader.text.geometry = new TextGeometry( 'LEVEL: 0', {
+		            font: font,
+		            size: 80,
+		            bevelEnabled: false,
+	            } );
+	            Loader.text.geometry.center();
+	            Loader.text.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+              Loader.text.mesh     = new THREE.Mesh( Loader.text.geometry, Loader.text.material );
+              Loader.text.mesh.position.z = 4;
+              Loader.text.mesh.position.y = 0.5;
+              Loader.text.mesh.scale.x = 0.005;
+              Loader.text.mesh.scale.y = 0.005;
+              Loader.text.mesh.scale.z = 0.0;
+              scene.add( Loader.text.mesh );
+
+              Loader.loaded = true;
+            });
+          });
       });
     });
 }

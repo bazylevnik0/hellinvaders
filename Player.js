@@ -16,9 +16,9 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 	  raycaster.set( camera_group.position, direction );
 
 	  // Update gun and laser rotation and position
-		Loader.gun.mesh.rotation.x = camera_xr.rotation.x;
-		Loader.gun.mesh.rotation.y = camera_xr.rotation.y;
-		Loader.gun.mesh.rotation.z = camera_xr.rotation.z;
+		Loader.gun.model.rotation.x = camera_xr.rotation.x;
+		Loader.gun.model.rotation.y = camera_xr.rotation.y;
+		Loader.gun.model.rotation.z = camera_xr.rotation.z;
 		Loader.laser.mesh.rotation.x = camera_xr.rotation.x;
 		Loader.laser.mesh.rotation.y = camera_xr.rotation.y;
 		Loader.laser.mesh.rotation.z = camera_xr.rotation.z;
@@ -33,12 +33,12 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 
     let fix_position = new THREE.Vector3( 0, 3.5, 5);
 		start_position.add(fix_position)
-		Loader.gun.mesh.position.x = start_position.x;
-		Loader.gun.mesh.position.y = start_position.y;
-		Loader.gun.mesh.position.z = start_position.z;
+		Loader.gun.model.position.x = start_position.x;
+		Loader.gun.model.position.y = start_position.y;
+		Loader.gun.model.position.z = start_position.z;
 
 		Loader.text.mesh.position.x = start_position.x;
-		Loader.text.mesh.position.y = start_position.y+4;
+		Loader.text.mesh.position.y = start_position.y+6;
 		Loader.text.mesh.position.z = start_position.z;
 
 

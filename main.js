@@ -9,7 +9,7 @@ console.log("debug test:",4);
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 const camera_group = new THREE.Group();
-camera_group.position.set(0,3,5);
+camera_group.position.set(0,5,5);
 camera_group.add( camera );
 scene.add(camera_group);
 const raycaster = new THREE.Raycaster();
