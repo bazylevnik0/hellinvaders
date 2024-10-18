@@ -26,10 +26,15 @@ renderer.xr.enabled = true;
 document.body.appendChild( renderer.domElement );
 document.body.appendChild( VRButton.createButton( renderer ) );
 
+Loader.clock = new THREE.Clock();
 Loader.load( scene ); renderer.setAnimationLoop( animate );
 function animate() {
   if (Loader.loaded) {
     if (renderer.xr.isPresenting) {
+      let delta = Loader.clock.getDelta();
+	    for ( let i = 0; i < Loader.invaders_mixers.length; i++) {
+	        Loader.invaders_mixers[i].update( delta );
+	    }
       Player.play(scene, camera_group, renderer, raycaster, Loader);
 	  }
 	}

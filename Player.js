@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 var Player = {};
 
-Player.level = 1;
+Player.level = 20;
 
 Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
   // Randomly with dependency to the level create invaders
@@ -51,17 +51,23 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 		// Check intersection of the ray from camera
 	  const intersects = raycaster.intersectObjects( scene.children );
 	  for ( let i = 0; i < intersects.length; i ++ ) {
+	    console.log(intersects[i].object)
 		  if (intersects[i].object.name == "invader") {
-        intersects[ i ].object.material.color.set( 0xffffff );
+		    console.log("hehe")
+        intersects[ i ].object.position.y = -2;
       }
 	  }
 
     // Move all invaders and if needed remove
-    for ( let i = 0; i < Loader.invaders.length; i++ ) {
-	    Loader.invaders[i].position.y -= 0.1;
-	    if ( Loader.invaders[i].position.y < -1 ) {
-	      scene.remove( Loader.invaders[i] );
-        Loader.invaders.splice( i, 1 );
+    for ( let i = 0; i < Loader.invaders_boxes.length; i++ ) {
+	    Loader.invaders_boxes[i].position.y -= 0.1;
+	    Loader.invaders_models[i].position.y -= 0.1;
+	    if ( Loader.invaders_boxes[i].position.y < -1 ) {
+	      scene.remove( Loader.invaders_boxes[i] );
+        Loader.invaders_boxes.splice( i, 1 );
+        scene.remove( Loader.invaders_models[i] );
+        Loader.invaders_models.splice( i, 1 );
+        Loader.invaders_mixers.splice( i, 1 );
 	    }
     }
 

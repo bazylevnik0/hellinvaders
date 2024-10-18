@@ -9,18 +9,36 @@ var Loader = {};
 Loader.load = function ( scene ) {
     // Creating invaders
     Loader.invader = {};
-    Loader.invaders = [];
+    Loader.invaders_boxes = [];
+    Loader.invaders_models = [];
+    Loader.invaders_mixers = [];
     Loader.invader.create = function ( scene ) {
-      Loader.invader.geometry = new THREE.BoxGeometry( 1, 1, 1 );
-      Loader.invader.material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-      Loader.invader.mesh     = new THREE.Mesh( Loader.invader.geometry, Loader.invader.material );
-      Loader.invader.mesh.position.y = 50;
-      Loader.invader.mesh.position.x = Math.random()*100-50;
-      Loader.invader.mesh.position.z = Math.random()*100-50;
-      Loader.invader.mesh.name = "invader";
-      scene.add( Loader.invader.mesh );
-      Loader.invaders.push( Loader.invader.mesh );
+      let invader_box = Loader.invader.mesh.clone();
+          invader_box.position.y = 50;
+          invader_box.position.x = Math.random()*100-50;
+          invader_box.position.z = Math.random()*100-50;
+          invader_box.name = "invader";
+          invader_box.visible = false;
+          invader_box.rotation.y = Math.random()*Math.PI*2;
+          scene.add( invader_box );
+          Loader.invaders_boxes.push( invader_box );
+
+      let invader_model = Loader.invader.model.clone();
+          invader_model.position.y = invader_box.position.y;
+          invader_model.position.x = invader_box.position.x;
+          invader_model.position.z = invader_box.position.z;
+          invader_model.rotation.y = invader_box.rotation.y;
+          scene.add( invader_model );
+          Loader.invaders_models.push( invader_model );
+
+      let invader_mixer = new THREE.AnimationMixer( invader_model );
+				  invader_mixer.clipAction( Loader.invader.animations[ 0 ] ).play();
+          invader_mixer.clipAction( Loader.invader.animations[ 1 ] ).play();
+          invader_mixer.clipAction( Loader.invader.animations[ 2 ] ).play();
+          Loader.invaders_mixers.push ( invader_mixer );
+
     }
+    Loader.invader.loader = new GLTFLoader();
 
     // Creating ground
     Loader.ground = {};
@@ -61,33 +79,50 @@ Loader.load = function ( scene ) {
       // Load Ground
       Loader.ground.loader.load( '/assets/Castle/Castle_Building_Blocks/post-castle.glb', (gltf_ground)=> {
           scene.add(gltf_ground.scene);
+          // Load Gun
           Loader.ground.loader.load( '/assets/Gun/Gun+.glb', (gltf_gun)=> {
-            Loader.gun.model = gltf_gun.scene;
-            Loader.gun.model.scale.x = 0.5;
-            Loader.gun.model.scale.y = 0.5;
-            Loader.gun.model.scale.z = 0.5;
-            scene.add(Loader.gun.model);
+          Loader.gun.model = gltf_gun.scene;
+          Loader.gun.model.scale.x = 0.5;
+          Loader.gun.model.scale.y = 0.5;
+          Loader.gun.model.scale.z = 0.5;
+          scene.add(Loader.gun.model);
+                //Load invader
+                  Loader.invader.geometry = new THREE.BoxGeometry( 5, 5, 7.5 );
+                  Loader.invader.material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+                  Loader.invader.mesh     = new THREE.Mesh( Loader.invader.geometry, Loader.invader.material );
 
-              // Load text
-              Loader.text.loader.load( '/assets/PixelifySansMedium_Regular.json', function ( font ) {
+                  Loader.invader.loader.load( '/assets/Invader/FGC_Skeleton+.glb', (gltf_invader)=> {
+                  Loader.invader.model = gltf_invader.scene;
+                  Loader.invader.animations = gltf_invader.animations;
+				          Loader.invader.mixer = new THREE.AnimationMixer( Loader.invader.model );
+				          Loader.invader.model.position.x = 0;
+				          Loader.invader.model.position.y = 2;
+				          Loader.invader.model.position.z = 0;
+				          Loader.invader.model.scale.x = 2.5;
+				          Loader.invader.model.scale.y = 2.5;
+				          Loader.invader.model.scale.z = 2.5;
 
-	            Loader.text.geometry = new TextGeometry( 'LEVEL: 0', {
-		            font: font,
-		            size: 80,
-		            bevelEnabled: false,
-	            } );
-	            Loader.text.geometry.center();
-	            Loader.text.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-              Loader.text.mesh     = new THREE.Mesh( Loader.text.geometry, Loader.text.material );
-              Loader.text.mesh.position.z = 4;
-              Loader.text.mesh.position.y = 0.5;
-              Loader.text.mesh.scale.x = 0.005;
-              Loader.text.mesh.scale.y = 0.005;
-              Loader.text.mesh.scale.z = 0.0;
-              scene.add( Loader.text.mesh );
+                  // Load text
+                  Loader.text.loader.load( '/assets/PixelifySansMedium_Regular.json', function ( font ) {
 
-              Loader.loaded = true;
-            });
+	                  Loader.text.geometry = new TextGeometry( 'LEVEL: 0', {
+		                  font: font,
+		                  size: 80,
+		                  bevelEnabled: false,
+	                  } );
+	                  Loader.text.geometry.center();
+	                  Loader.text.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+                    Loader.text.mesh     = new THREE.Mesh( Loader.text.geometry, Loader.text.material );
+                    Loader.text.mesh.position.z = 4;
+                    Loader.text.mesh.position.y = 0.5;
+                    Loader.text.mesh.scale.x = 0.005;
+                    Loader.text.mesh.scale.y = 0.005;
+                    Loader.text.mesh.scale.z = 0.0;
+                    scene.add( Loader.text.mesh );
+
+                    Loader.loaded = true;
+                  });
+              });
           });
       });
     });
