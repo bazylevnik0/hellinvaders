@@ -1,12 +1,12 @@
 import * as THREE from 'three';
-import { VRButton } from 'three/addons/webxr/VRButton.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 var Loader = {};
 
 Loader.load = function ( scene ) {
-
     // Creating invaders
     Loader.invader = {};
     Loader.invaders = [];
@@ -24,11 +24,7 @@ Loader.load = function ( scene ) {
 
     // Creating ground
     Loader.ground = {};
-    Loader.ground.geometry = new THREE.PlaneGeometry( 1000, 1000 );
-    Loader.ground.material = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide} );
-    Loader.ground.mesh     = new THREE.Mesh( Loader.ground.geometry, Loader.ground.material );
-    Loader.ground.mesh.position.y = -1;
-    Loader.ground.mesh.rotation.x = Math.PI/2
+    Loader.ground.loader = new GLTFLoader();
     scene.add( Loader.ground.mesh );
 
     // Creating gun
@@ -42,6 +38,7 @@ Loader.load = function ( scene ) {
 
     // Creating laser
     Loader.laser = {};
+    Loader.gun.loader = new GLTFLoader();
     Loader.laser.geometry = new THREE.BoxGeometry( 0.1, 0.1, 1000 );
     Loader.laser.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
     Loader.laser.mesh    = new THREE.Mesh( Loader.laser.geometry, Loader.laser.material );
@@ -52,25 +49,39 @@ Loader.load = function ( scene ) {
     // Creating text
     Loader.text = {};
     Loader.text.loader = new FontLoader();
-    Loader.text.loader.load( 'PixelifySansMedium_Regular.json', function ( font ) {
+    //Load Sky
+    Loader.sky = {};
+    Loader.sky.loader = new RGBELoader();
+    Loader.sky.loader.load( '/assets/mud_road_puresky_1k.hdr', function ( texture ) {
 
-	    Loader.text.geometry = new TextGeometry( 'LEVEL: 0', {
-		    font: font,
-		    size: 80,
-		    bevelEnabled: false,
-	    } );
-	    Loader.text.geometry.center();
-	    Loader.text.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-      Loader.text.mesh     = new THREE.Mesh( Loader.text.geometry, Loader.text.material );
-      Loader.text.mesh.position.z = 4;
-      Loader.text.mesh.position.y = 0.5;
-      Loader.text.mesh.scale.x = 0.005;
-      Loader.text.mesh.scale.y = 0.005;
-      Loader.text.mesh.scale.z = 0.0;
-      scene.add( Loader.text.mesh );
+		  texture.mapping = THREE.EquirectangularReflectionMapping;
 
-      Loader.text.loaded = true;
-    } );
+		  scene.background = texture;
+		  scene.environment = texture;
+      // Load Ground
+      Loader.ground.loader.load( '/assets/Castle/Castle_Building_Blocks/post-castle.glb', (gltf_ground)=> {
+          scene.add(gltf_ground.scene);
+          // Load text
+          Loader.text.loader.load( '/assets/PixelifySansMedium_Regular.json', function ( font ) {
 
+	        Loader.text.geometry = new TextGeometry( 'LEVEL: 0', {
+		        font: font,
+		        size: 80,
+		        bevelEnabled: false,
+	        } );
+	        Loader.text.geometry.center();
+	        Loader.text.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+          Loader.text.mesh     = new THREE.Mesh( Loader.text.geometry, Loader.text.material );
+          Loader.text.mesh.position.z = 4;
+          Loader.text.mesh.position.y = 0.5;
+          Loader.text.mesh.scale.x = 0.005;
+          Loader.text.mesh.scale.y = 0.005;
+          Loader.text.mesh.scale.z = 0.0;
+          scene.add( Loader.text.mesh );
+
+          Loader.loaded = true;
+        });
+      });
+    });
 }
 export default Loader;

@@ -15,7 +15,6 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 	  camera_xr.getWorldDirection(direction)
 	  raycaster.set( camera_group.position, direction );
 
-
 	  // Update gun and laser rotation and position
 		Loader.gun.mesh.rotation.x = camera_xr.rotation.x;
 		Loader.gun.mesh.rotation.y = camera_xr.rotation.y;
@@ -32,14 +31,14 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 		start_position.multiplyScalar(2)
 
 
-    let fix_position = new THREE.Vector3( 0, 0.5, 5);
+    let fix_position = new THREE.Vector3( 0, 3.5, 5);
 		start_position.add(fix_position)
 		Loader.gun.mesh.position.x = start_position.x;
 		Loader.gun.mesh.position.y = start_position.y;
 		Loader.gun.mesh.position.z = start_position.z;
 
-		 Loader.text.mesh.position.x = start_position.x;
-		Loader.text.mesh.position.y = start_position.y+3;
+		Loader.text.mesh.position.x = start_position.x;
+		Loader.text.mesh.position.y = start_position.y+4;
 		Loader.text.mesh.position.z = start_position.z;
 
 
