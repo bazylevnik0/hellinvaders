@@ -198,7 +198,7 @@ Loader.load = function ( scene , listener) {
 }
 
 Loader.change_level = function (scene, level) {
- Loader.text.loader.load( '/assets/PixelifySansMedium_Regular.json', function ( font ) {
+ Loader.text.loader.load( 'assets/PixelifySansMedium_Regular.json', function ( font ) {
 
                     scene.remove( Loader.text.mesh )
 	                  Loader.text.geometry = new TextGeometry( 'LEVEL: '+level, {
