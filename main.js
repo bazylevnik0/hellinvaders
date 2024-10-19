@@ -3,8 +3,6 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import Loader from './Loader.js';
 import Player from './Player.js';
 
-console.log("debug test:",5);
-
 // Creating the common stuff
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -25,19 +23,28 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.xr.enabled = true;
 document.body.appendChild( renderer.domElement );
-document.body.appendChild( VRButton.createButton( renderer ) );
 
+// Start to load
 Loader.clock = new THREE.Clock();
 Loader.load( scene , listener); renderer.setAnimationLoop( animate );
+// Show the enter to vr button when sky is loaded
+let loading = setInterval ( ()=> {
+  if (Loader.sky.loaded) {
+    renderer.render( scene, camera );
+    document.body.appendChild( VRButton.createButton( renderer ) );
+    clearInterval(loading);
+  }
+},50);
 function animate() {
-  if (Loader.loaded) {
-    if (renderer.xr.isPresenting) {
+  if (renderer.xr.isPresenting) {
+    // When loaded start animate and play
+    if (Loader.loaded) {
       let delta = Loader.clock.getDelta();
 	    for ( let i = 0; i < Loader.invaders_mixers.length; i++) {
 	        Loader.invaders_mixers[i].update( delta );
 	    }
       Player.play(scene, camera_group, renderer, raycaster, Loader);
 	  }
+	  renderer.render( scene, camera );
 	}
-  renderer.render( scene, camera );
 }

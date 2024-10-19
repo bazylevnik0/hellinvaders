@@ -2,8 +2,10 @@
 
 <b>development: bazylevnik0</b><br>
 <b>sound:</b><br>
-laser effect - by jobro(https://freesound.org/s/35677/)<br>
+laser effect - by jobro (https://freesound.org/s/35677/)<br>
 music - by kbrecordzz (https://freesound.org/s/574512/)<br>
+win effect - by LittleRobotSoundFactory (https://freesound.org/people/LittleRobotSoundFactory/sounds/274182/) <br>
+lose effect - by suntemple (https://freesound.org/people/suntemple/sounds/253174/)<br>
 <b>3D models:</b><br>
 castle - by Colorado Stark (https://opengameart.org/content/modular-castle-level-construction-kit)<br>
 gun - by piacenti (https://opengameart.org/content/modular-castle-level-construction-kit)<br>

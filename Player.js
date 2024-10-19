@@ -12,7 +12,6 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
     let   r = Math.floor(Math.random()*(100/Player.random));
     if ( !r ) Loader.invader.create(scene);
 
-
     // If needed update the game level
     if (Player.score >= 20 && Player.score < 40 && Player.level !== 1) {
         Player.level = 1;
@@ -20,7 +19,6 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
         Loader.change_level(scene, 1);
         Loader.sound.win.audio.play();
     }
-
     if (Player.score >= 40 && Player.score < 80 && Player.level !== 2) {
         Player.level = 2;
         Player.speed *= 2;
@@ -48,7 +46,7 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 		  Loader.invaders_effects[i].rotation.z = camera_xr.rotation.z;
 	  }
 
-	  // Update gun and laser rotation and position
+	  // Update gun, laser and text rotation and position
 		Loader.gun.model.rotation.x  = camera_xr.rotation.x;
 		Loader.gun.model.rotation.y  = camera_xr.rotation.y;
 		Loader.gun.model.rotation.z  = camera_xr.rotation.z;
@@ -62,7 +60,6 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 		let start_position = new THREE.Vector3(0,0,0);
 		start_position = direction.clone();
 		start_position.multiplyScalar(2)
-
 
     let fix_position = new THREE.Vector3( 0, 3.5, 5);
 		start_position.add(fix_position)
@@ -93,7 +90,7 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
       }
 	  }
 
-    // Move all invaders and if needed remove
+    // Move all invaders and if needed - remove
     for ( let i = 0; i < Loader.invaders_boxes.length; i++ ) {
 	    Loader.invaders_boxes[i].position.y   -= Player.speed;
 	    Loader.invaders_models[i].position.y  -= Player.speed;
@@ -110,9 +107,7 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
         scene.remove( Loader.invaders_effects[i]);
         Loader.invaders_effects.splice( i, 1 );
 	    }
-
     }
-
 }
 
 export default Player;
