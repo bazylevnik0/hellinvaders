@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 var Player = {};
 
-Player.level = 20;
+Player.level = 5;
 
 Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
   // Randomly with dependency to the level create invaders
@@ -14,6 +14,13 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
 	  let direction = new THREE.Vector3();
 	  camera_xr.getWorldDirection(direction)
 	  raycaster.set( camera_group.position, direction );
+
+	  // Update effects of invaders
+	  for (let i = 0; i < Loader.invaders_effects.length; i++) {
+	    	Loader.invaders_effects[i].rotation.x = camera_xr.rotation.x;
+		  Loader.invaders_effects[i].rotation.y = camera_xr.rotation.y;
+		  Loader.invaders_effects[i].rotation.z = camera_xr.rotation.z;
+	  }
 
 	  // Update gun and laser rotation and position
 		Loader.gun.model.rotation.x = camera_xr.rotation.x;
@@ -63,12 +70,15 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
     for ( let i = 0; i < Loader.invaders_boxes.length; i++ ) {
 	    Loader.invaders_boxes[i].position.y -= 0.1;
 	    Loader.invaders_models[i].position.y -= 0.1;
+	    Loader.invaders_effects[i].position.y -= 0.1;
 	    if ( Loader.invaders_boxes[i].position.y < -1 ) {
 	      scene.remove( Loader.invaders_boxes[i] );
         Loader.invaders_boxes.splice( i, 1 );
         scene.remove( Loader.invaders_models[i] );
         Loader.invaders_models.splice( i, 1 );
         Loader.invaders_mixers.splice( i, 1 );
+        scene.remove( Loader.invaders_effects[i]);
+        Loader.invaders_effects.splice( i, 1 );
 	    }
     }
 

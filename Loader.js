@@ -12,6 +12,7 @@ Loader.load = function ( scene , listener) {
     Loader.invaders_boxes = [];
     Loader.invaders_models = [];
     Loader.invaders_mixers = [];
+    Loader.invaders_effects = [];
     Loader.invader.create = function ( scene ) {
       let invader_box = Loader.invader.mesh.clone();
           invader_box.position.y = 50;
@@ -37,6 +38,15 @@ Loader.load = function ( scene , listener) {
           invader_mixer.clipAction( Loader.invader.animations[ 2 ] ).play();
           Loader.invaders_mixers.push ( invader_mixer );
 
+      let invader_effect = Loader.light_effect.plane.clone();
+          invader_effect.position.y = invader_box.position.y;
+          invader_effect.position.x = invader_box.position.x;
+          invader_effect.position.z = invader_box.position.z;
+          Loader.invaders_effects.push(invader_effect);
+          scene.add (invader_effect);
+
+
+
     }
     Loader.invader.loader = new GLTFLoader();
 
@@ -58,7 +68,7 @@ Loader.load = function ( scene , listener) {
     // Creating laser
     Loader.laser = {};
     Loader.laser.geometry = new THREE.BoxGeometry( 0.1, 0.1, 1000 );
-    Loader.laser.material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+    Loader.laser.material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
     Loader.laser.mesh    = new THREE.Mesh( Loader.laser.geometry, Loader.laser.material );
     Loader.laser.mesh.position.z = 4;
     Loader.laser.mesh.position.y = 0.5;
@@ -137,7 +147,25 @@ Loader.load = function ( scene , listener) {
 	                    // Load effect
 	                     Loader.sound.effect.loader.load( '/assets/jobro__laser1.wav', function( buffer ) {
 	                        Loader.sound.effect.audio.setBuffer( buffer );
-	                        Loader.loaded = true;
+
+                          Loader.light_effect = {};
+                          Loader.light_effect.loader = new THREE.TextureLoader();
+
+                          Loader.light_effect.loader.load ('/assets/light.png' , function(texture) {
+                              Loader.light_effect.geometry = new THREE.PlaneGeometry( 1, 1 );
+                              Loader.light_effect.material = new THREE.MeshBasicMaterial( {
+                                  color: 0xffffff,
+                                  side: THREE.DoubleSide,
+                                  map: texture,
+                                  transparent: true,
+                              } );
+                              Loader.light_effect.plane = new THREE.Mesh( Loader.light_effect.geometry, Loader.light_effect.material );
+                              Loader.light_effect.plane.scale.x = 10;
+                              Loader.light_effect.plane.scale.y = 10;
+                              Loader.light_effect.plane.scale.z = 10;
+
+                              Loader.loaded = true;
+                          });
 	                    });
                     });
                   });
