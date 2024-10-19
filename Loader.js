@@ -109,10 +109,10 @@ Loader.load = function ( scene , listener) {
 		  scene.background = texture;
 		  scene.environment = texture;
       // Load Ground
-      Loader.ground.loader.load( '/assets/Castle/Castle_Building_Blocks/post-castle.glb', (gltf_ground)=> {
+      Loader.ground.loader.load( 'assets/Castle/Castle_Building_Blocks/post-castle.glb', (gltf_ground)=> {
           scene.add(gltf_ground.scene);
           // Load Gun
-          Loader.ground.loader.load( '/assets/Gun/Gun+.glb', (gltf_gun)=> {
+          Loader.ground.loader.load( 'assets/Gun/Gun+.glb', (gltf_gun)=> {
           Loader.gun.model = gltf_gun.scene;
           Loader.gun.model.scale.x = 0.5;
           Loader.gun.model.scale.y = 0.5;
@@ -123,7 +123,7 @@ Loader.load = function ( scene , listener) {
                   Loader.invader.material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
                   Loader.invader.mesh     = new THREE.Mesh( Loader.invader.geometry, Loader.invader.material );
 
-                  Loader.invader.loader.load( '/assets/Invader/FGC_Skeleton+.glb', (gltf_invader)=> {
+                  Loader.invader.loader.load( 'assets/Invader/FGC_Skeleton+.glb', (gltf_invader)=> {
                   Loader.invader.model = gltf_invader.scene;
                   Loader.invader.animations = gltf_invader.animations;
 				          Loader.invader.mixer = new THREE.AnimationMixer( Loader.invader.model );
@@ -135,7 +135,7 @@ Loader.load = function ( scene , listener) {
 				          Loader.invader.model.scale.z = 15;
 
                   // Load text
-                  Loader.text.loader.load( '/assets/PixelifySansMedium_Regular.json', function ( font ) {
+                  Loader.text.loader.load( 'assets/PixelifySansMedium_Regular.json', function ( font ) {
 
 	                  Loader.text.geometry = new TextGeometry( 'LEVEL: 0', {
 		                  font: font,
@@ -152,18 +152,18 @@ Loader.load = function ( scene , listener) {
                     Loader.text.mesh.scale.z = 0.0;
                     scene.add( Loader.text.mesh );
                     // Load music
-                    Loader.sound.music.loader.load( '/assets/kbrecordzz__groove-metal-break-8.mp3', function( buffer ) {
+                    Loader.sound.music.loader.load( 'assets/kbrecordzz__groove-metal-break-8.mp3', function( buffer ) {
 	                    Loader.sound.music.audio.setBuffer( buffer );
 	                    Loader.sound.music.audio.setLoop( true );
 	                    Loader.sound.music.audio.play();
 	                    // Load effect
-	                     Loader.sound.effect.loader.load( '/assets/jobro__laser1.wav', function( buffer ) {
+	                     Loader.sound.effect.loader.load( 'assets/jobro__laser1.wav', function( buffer ) {
 	                        Loader.sound.effect.audio.setBuffer( buffer );
 
-	                         Loader.sound.win.loader.load( '/assets/littlerobotsoundfactory__jingle_win_synth_05.wav', function( buffer ) {
+	                         Loader.sound.win.loader.load( 'assets/littlerobotsoundfactory__jingle_win_synth_05.wav', function( buffer ) {
 	                        Loader.sound.win.audio.setBuffer( buffer );
 
-	                           Loader.sound.lose.loader.load( '/assets/suntemple__retro-you-lose-sfx.wav', function( buffer ) {
+	                           Loader.sound.lose.loader.load( 'assets/suntemple__retro-you-lose-sfx.wav', function( buffer ) {
 	                          Loader.sound.lose.audio.setBuffer( buffer );
 
 
@@ -171,7 +171,7 @@ Loader.load = function ( scene , listener) {
                                 Loader.light_effect = {};
                                 Loader.light_effect.loader = new THREE.TextureLoader();
 
-                                Loader.light_effect.loader.load ('/assets/light.png' , function(texture) {
+                                Loader.light_effect.loader.load ('assets/light.png' , function(texture) {
                                     Loader.light_effect.geometry = new THREE.PlaneGeometry( 1, 1 );
                                     Loader.light_effect.material = new THREE.MeshBasicMaterial( {
                                         color: 0xffffff,
