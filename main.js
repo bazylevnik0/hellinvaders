@@ -18,7 +18,7 @@ const raycaster = new THREE.Raycaster();
 const light_ambient = new THREE.AmbientLight( 0x404040 ); // soft white light
 		  light_ambient.intensity = 5;
       scene.add( light_ambient );
-const light_point = new THREE.PointLight( 0x404040, 10, 1000 );
+const light_point = new THREE.PointLight( 0x404040, 10, 5000 );
       light_point.position.set( 0, 10, 0 );
       scene.add( light_point );
 const renderer = new THREE.WebGLRenderer();
