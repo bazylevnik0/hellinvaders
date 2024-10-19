@@ -3,7 +3,7 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import Loader from './Loader.js';
 import Player from './Player.js';
 
-console.log("debug test:",4);
+console.log("debug test:",5);
 
 // Creating the common stuff
 const scene = new THREE.Scene();
