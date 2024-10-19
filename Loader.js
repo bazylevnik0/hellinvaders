@@ -18,10 +18,21 @@ Loader.load = function ( scene , listener) {
           invader_box.position.y = 500;
           invader_box.position.x = Math.random()*750-375;
           invader_box.position.z = Math.random()*750-375;
-          while ((invader_box.position.x > -250 && invader_box.position.x < 250) ||
-                 (invader_box.position.z > -250 && invader_box.position.z < 250)) {
+          let check = false; let timer = 100;
+          while (((invader_box.position.x > -250 && invader_box.position.x < 250) ||
+                  (invader_box.position.z > -250 && invader_box.position.z < 250) || check ) && timer > 0 ) {
+              check = false;
               invader_box.position.x = Math.random()*750-375;
               invader_box.position.z = Math.random()*750-375;
+
+              for (let i = 0; i < Loader.invaders_boxes.length; i++) {
+                console.log(invader_box.position.distanceTo(Loader.invaders_boxes[i].position))
+                if ( invader_box.position.distanceTo(Loader.invaders_boxes[i].position) < 250 &&
+                     invader_box.position.x !== Loader.invaders_boxes[i].position.x) {
+                  check = true;
+                }
+              }
+              timer--;
           }
           invader_box.name = "invader";
           invader_box.visible = false;

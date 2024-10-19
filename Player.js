@@ -12,20 +12,22 @@ Player.play = function ( scene, camera_group, renderer, raycaster, Loader) {
     let   r = Math.floor(Math.random()*(100/Player.random));
     if ( !r ) Loader.invader.create(scene);
 
+
     // If needed update the game level
-    if (Player.score >= 5 && Player.score < 15 && Player.level !== 1) {
+    if (Player.score >= 20 && Player.score < 40 && Player.level !== 1) {
         Player.level = 1;
         Player.speed *= 2;
         Loader.change_level(scene, 1);
         Loader.sound.win.audio.play();
     }
-    if (Player.score >= 15 && Player.score < 40 && Player.level !== 2) {
+
+    if (Player.score >= 40 && Player.score < 80 && Player.level !== 2) {
         Player.level = 2;
         Player.speed *= 2;
         Loader.change_level(scene, 2);
         Loader.sound.win.audio.play();
     }
-    if (Player.score >= 40 && Player.level !== 3) {
+    if (Player.score >= 80 && Player.level !== 3) {
         Player.level = 3;
         Player.speed *= 2;
         Player.random *= 3;
