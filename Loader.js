@@ -102,7 +102,7 @@ Loader.load = function ( scene , listener) {
     Loader.sound.lose.loader = new THREE.AudioLoader();
 
 
-    Loader.sky.loader.load( '/assets/mud_road_puresky_1k.hdr', function ( texture ) {
+    Loader.sky.loader.load( 'assets/mud_road_puresky_1k.hdr', function ( texture ) {
 
 		  texture.mapping = THREE.EquirectangularReflectionMapping;
 
